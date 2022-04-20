@@ -24,6 +24,7 @@ public class ClientDTO implements Serializable {
     private Instant birthDate;
     private Integer children;
     //CONSTRUTOR QUE RECEBE A ENTIDADE
+
     public ClientDTO(Client client){
         this.id = client.getId();
         this.name = client.getName();
