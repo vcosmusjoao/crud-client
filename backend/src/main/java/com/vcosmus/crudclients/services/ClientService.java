@@ -3,20 +3,28 @@ package com.vcosmus.crudclients.services;
 import com.vcosmus.crudclients.dto.ClientDTO;
 import com.vcosmus.crudclients.entities.Client;
 import com.vcosmus.crudclients.repositories.ClientRepository;
+import com.vcosmus.crudclients.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Transactional
+    public ClientDTO findClientById(Long id) {
+        Client entity = clientRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id Não Encontrado"));
+        ClientDTO clientDTO = new ClientDTO(entity);
+        return clientDTO;
+    }
 
     @Transactional
     public Page<ClientDTO> findAllClients(PageRequest pageRequest) {
@@ -40,4 +48,6 @@ public class ClientService {
         entity.setIncome(clientDTO.getIncome());
         entity.setChildren(clientDTO.getChildren());
     }
+
+
 }

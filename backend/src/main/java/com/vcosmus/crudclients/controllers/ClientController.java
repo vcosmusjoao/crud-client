@@ -20,7 +20,7 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<Page<ClientDTO>> findAllClients (@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<Page<ClientDTO>> findAllClients(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                            @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
                                            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
                                            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy){
@@ -28,6 +28,13 @@ public class ClientController {
         Page<ClientDTO> list = clientService.findAllClients(pageRequest);
         return ResponseEntity.ok().body(list);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ClientDTO> findClientById(@PathVariable Long id){
+        ClientDTO clientDTO = clientService.findClientById(id);
+        return ResponseEntity.ok().body(clientDTO);
+    }
+
 
     @PostMapping
     public ResponseEntity<ClientDTO> addClient (@RequestBody ClientDTO clientDTO){
@@ -37,6 +44,7 @@ public class ClientController {
 
         return ResponseEntity.created(uri).body(clientDTO);
     }
+    
 
 
 }
